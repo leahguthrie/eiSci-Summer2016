@@ -1,0 +1,101 @@
+---
+title: 
+author: 
+date: 
+output: html_document
+---
+
+## A Definition of data
+<q>Data are values of qualitative or quantitative variables, belonging to a set of items.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+####R is a programming language for statistical statistical computing and visualization. R has built in datasets. Here’s an example dataset in the form of a table of risk factors associated with low infant birth weight. This data was collected at Baystate Medical Center, Springfield, Mass during 1986.
+
+```{r}
+library(MASS)
+library(ggthemes)
+library(ggplot2)
+library(plyr)
+head(birthwt,10)
+```
+
+#####In this dataset each column measures a different item or variable. This data frame contains the following columns:
+
+<dl>
+<dt><code>low</code></dt><dd><p>indicator of birth weight less than 2.5 kg.</p>
+</dd>
+<dt><code>age</code></dt><dd><p>mother's age in years.</p>
+</dd>
+<dt><code>lwt</code></dt><dd><p>mother's weight in pounds at last menstrual period.</p>
+</dd>
+<dt><code>race</code></dt><dd><p>mother's race (<code>1</code> = white, <code>2</code> = black,
+<code>3</code> = other).</p>
+</dd>
+<dt><code>smoke</code></dt><dd><p>smoking status during pregnancy.</p>
+</dd>
+<dt><code>ptl</code></dt><dd><p>number of previous premature labours.</p>
+</dd>
+<dt><code>ht</code></dt><dd><p>history of hypertension.</p>
+</dd>
+<dt><code>ui</code></dt><dd><p>presence of uterine irritability.</p>
+</dd>
+<dt><code>ftv</code></dt><dd><p>number of physician visits during the first trimester.</p>
+</dd>
+<dt><code>bwt</code></dt><dd><p>birth weight in grams.</p>
+</dd>
+</dl>
+
+
+There are two main types of variables: <strong>Discrete</strong> and <strong>Continuous</strong>
+
+    - Discrete or categorical variables are countable with fixed values.
+        - ordinal: ordered variables such as grade level or school grades
+
+#####The dataset below has two variables. Here the stages variable represents different stages of cancer and the counts variable represents how many people responded well to drug treatment at that stage.
+
+```{r, echo=FALSE}
+stages <- c("Stage 1", "Stage 2", "Stage 3", "Stage 4")
+counts <- as.integer(c(750, 510, 350, 45))
+cancer_drug <-cbind.data.frame(stages, counts)
+head(cancer_drug,5)
+```
+
+
+```{r, echo=FALSE}
+cancer_drug$stages = with(cancer_drug, factor(stages, levels = rev(levels(stages))))
+ggplot (cancer_drug, aes (stages, counts, fill = stages, color = stages)) + geom_bar (stat="identity", width = 0.5) + theme_igray() + ylab ("Numer of Patients Who Respond to the Drug") + xlab ("Stages of Cancer") + 
+  theme (legend.position ="none") + coord_flip() + scale_fill_manual (values = c ("salmon", "orange", "yellow", "skyblue"))  + scale_color_manual (values = c ("red3", "orangered", "gold", "blue2"))
+```
+
+
+####Stages is a discrete ordinal variable.
+
+        - nominal: unordered variables such as sex (male or female) or favorite color (blue, yellow or purple).
+
+#####In this dataset on ice-cream preferences there are two variables. The first column has a number of ice crease flavors and the second column has the number of counts for people who like that flavor of ice-cream.  In this example “flavors” represents a nominal variable.
+
+
+```{r}
+flavors <- c("Mango", "Guava", "Gooseberry", "Coconut")
+counts <- as.integer(c(750, 310, 650, 245))
+ice_cream <-cbind.data.frame(flavors, counts)
+
+head(ice_cream,5)
+```
+
+
+```{r, echo=FALSE}
+ice_cream$flavors = with(ice_cream, factor(flavors, levels = rev(levels(flavors))))
+ggplot (ice_cream, aes (flavors, counts, fill = flavors, color = flavors)) + geom_bar (stat="identity", width = 0.5) + theme_igray() + ylab ("Number of People who like each Flavor of Ice Cream") + xlab ("Ice Cream Flavors") + 
+  theme (legend.position ="none") + coord_flip() + scale_fill_manual (values = c ("salmon", "dodgerblue", "yellow", "lightskyblue"))  + scale_color_manual (values = c ("red3", "navy", "gold", "dodgerblue"))
+
+```
+
+    - Continuous or quantitative variables have fixed intervals between adjacent values but are not fixed or static. Continuous variables can be manipulated mathematically.For example in the dataset on risk factors associated with low infant birth weight there are 3 continuous variables: age, lwt and btw.  We can manipulate these variables mathematically.
+
+```{r, echo=FALSE}
+head(birthwt,5)
+```
+
+
