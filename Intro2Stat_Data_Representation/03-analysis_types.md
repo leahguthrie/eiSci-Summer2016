@@ -1,7 +1,6 @@
 Types of Analysis?
 
-- Descriptive
-
+- Descriptive: 
 - Exploratory
 - Inferential
 - Predictive
